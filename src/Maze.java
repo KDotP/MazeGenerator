@@ -30,21 +30,21 @@ public class Maze {
         {
             for (int j = 0; j < maze[i].length; j++)
             {
-                String up = "c";
-                String right = "c";
-                String down = "c";
-                String left = "c";
+                SideType up = SideType.CLOSED;
+                SideType right = SideType.CLOSED;
+                SideType down = SideType.CLOSED;
+                SideType left = SideType.CLOSED;
 
                 if (i == 0) {
-                    up = "e";
+                    up = SideType.EDGE;
                 } else if (i == maze.length - 1) {
-                    down = "e";
+                    down = SideType.EDGE;
                 }
 
                 if (j == 0) {
-                    left = "e";
+                    left = SideType.EDGE;
                 } else if (j == maze[i].length - 1) {
-                    right = "e";
+                    right = SideType.EDGE;
                 }
 
                 maze[i][j] = new Node(up, right, down, left);
@@ -95,7 +95,7 @@ public class Maze {
                     if(!map[posY-1][posX]) {
                         map[posY][posX] = true; // The current tile should be set to mapped, just in case
                         posY--; // Update the position. Remember, negetive is up
-                        maze[posY][posX].SetDown("o"); // Set the NEW tile's 'down' link to 'o' for open
+                        maze[posY][posX].SetDown(SideType.OPEN); // Set the NEW tile's 'down' link to open
                         map[posY][posX] = true; // Set the new position's map to true
                         done = true; // Indicating a successful action, check if the maze is now complete
                     } 
@@ -111,7 +111,7 @@ public class Maze {
                 else if (directionRoll == 1 && posX + 1 < maze.length) {
                     // If the right tile has not yet been visited, establish a new connection
                     if(!map[posY][posX+1]) {
-                        maze[posY][posX].SetRight("o");
+                        maze[posY][posX].SetRight(SideType.OPEN);
                         map[posY][posX] = true;
                         posX++;
                         map[posY][posX] = true;
@@ -123,7 +123,7 @@ public class Maze {
                 // If 2 is rolled from random, attempt to travel down
                 else if (directionRoll == 2 && posY + 1 < maze.length) {
                     if(!map[posY+1][posX]) {
-                        maze[posY][posX].SetDown("o");
+                        maze[posY][posX].SetDown(SideType.OPEN);
                         map[posY][posX] = true;
                         posY++;
                         map[posY][posX] = true;
@@ -137,7 +137,7 @@ public class Maze {
                     if(!map[posY][posX-1]) {
                         map[posY][posX] = true;
                         posX--;
-                        maze[posY][posX].SetRight("o");
+                        maze[posY][posX].SetRight(SideType.OPEN);
                         map[posY][posX] = true;
                         done = true;
                     } else if (maze[posY][posX-1].GetRight()) {
